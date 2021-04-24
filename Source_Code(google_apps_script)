@@ -1,0 +1,49 @@
+//example file : https://docs.google.com/spreadsheets/d/1uXNJ8dtu6DENn2IeeQse_neM42f0ukwUPafHS7eWRXQ/edit?usp=sharing
+
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1RfVOnibGbGsp47aZnPq8su-C4qWyKORxFcno5mUSAqA/edit?usp=sharing";
+const SHEET_NAME = "SMS";
+
+const doGet = () => {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName(
+        SHEET_NAME
+    );
+    const [header, ...data] = sheet.getDataRange().getDisplayValues();
+
+    const PHONE = header.indexOf('Phone');
+    const TEXT = header.indexOf('Text');
+    const STATUS = header.indexOf('Status');
+    const YEAR = header.indexOf('Year');
+    const MONTH = header.indexOf('Month');
+    const DAY = header.indexOf('Day');
+    const HOUR = header.indexOf('Hour');
+    const MIN = header.indexOf('Minute');
+    const output = [];
+
+    data.forEach((row, index) => {
+        if (row[STATUS] === '') {
+            output.push([index + 1, row[PHONE], row[TEXT], row[YEAR], row[MONTH], row[DAY], row[HOUR], row[MIN]]);
+        }
+    });
+
+    const json = JSON.stringify(output);
+
+    return ContentService.createTextOutput(json).setMimeType(
+        ContentService.MimeType.TEXT
+    );
+};
+
+const doPost = (e) => {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName(
+        SHEET_NAME
+    );
+    const [header] = sheet.getRange('A1:1').getValues();
+    const STATUS = header.indexOf('Status');
+    const YEAR = header.indexOf('Year');
+    var rowId = Number(e.parameter.row);
+    sheet.getRange(rowId + 1, STATUS + 1).setValue('SMS Sent');
+    var yearvalue = sheet.getRange(rowId + 1, YEAR + 1).getValue();
+    sheet.getRange(rowId + 1, YEAR + 1).setValue(yearvalue - 1);
+    return ContentService.createTextOutput('').setMimeType(
+        ContentService.MimeType.TEXT
+    );
+};

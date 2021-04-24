@@ -1,0 +1,11 @@
+First, see the example spreadsheet. 
+	You have to remain title of phone-number, status, year, month, day, hour, and minute. Except those, you can add, delete, revise any of components you wish to.
+
+Second, go to app-script and paste the Source-Code. Then post it and get copy of the address of app-script.
+
+Third, 
+	1) download app and install it. Make sure you allow every authorization the app needs
+	2) paste to address to the application's text box and enter 'Address Input' Button.
+ 	3) press 'Fetch' to get data
+	4) press 'Reservation' to schedule messages
+	5) press 'Send Direct' to Send messages right now
